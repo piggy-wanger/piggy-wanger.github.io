@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/favicon/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    
+
+
+    <!-- meta -->
+
+
+<title>Ubuntu Tips：home目录下文件泄漏于桌面 | 红毛乌龟&#39;s Blog</title>
+
+
+    <meta name="keywords" content="Linux, Ubuntu">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="解决Ubuntu重启后，home目录下文件全部显示在桌面上的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu Tips：home目录下文件泄漏于桌面">
+<meta property="og:url" content="http://piggy-wanger.github.io/2024/07/19/0002/index.html">
+<meta property="og:site_name" content="红毛乌龟&#39;s Blog">
+<meta property="og:description" content="解决Ubuntu重启后，home目录下文件全部显示在桌面上的问题。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/2cfa614a78174753a2f996638cbf4291.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/03e3248774f5407792b3ee189354d06f.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/572ddf9f3ffc4793abcef67ff125f113.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/b.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/19f939873e4542f09bf0fb2a1901c195.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/85769a1a17394219ba55c403cae64c9e.png">
+<meta property="article:published_time" content="2024-07-19T12:33:50.000Z">
+<meta property="article:modified_time" content="2024-07-19T14:18:51.125Z">
+<meta property="article:author" content="Yulong Zhang">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/2cfa614a78174753a2f996638cbf4291.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/hljs.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/hljs.dark.css" media="none">
+        
+    
+
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">红毛乌龟&#39;s Blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Columns</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Columns</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Ubuntu Tips：home目录下文件泄漏于桌面
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/07/" class="post-meta__date button">2024-07-19</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Ubuntu%E4%BD%BF%E7%94%A8/" class="button">Ubuntu使用</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">命令行解决办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">图形界面解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">命令行解决办法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">图形界面解决办法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>不知道什么原因，Ubuntu重启后，home目录下文件全部显示在桌面上。</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/2cfa614a78174753a2f996638cbf4291.png" alt="2cfa614a78174753a2f996638cbf4291"></p>
+</center>
+
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><h3 id="命令行解决办法"><a href="#命令行解决办法" class="headerlink" title="命令行解决办法"></a>命令行解决办法</h3><p>crtl+alt+t打开终端，依次执行：</p>
+<pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> .config
+$ <span class="hljs-built_in">ls</span>
+$ vim user-dirs.dirs</code></pre>
+
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/03e3248774f5407792b3ee189354d06f.png" alt="03e3248774f5407792b3ee189354d06f"></p>
+</center>
+
+<p>这时，可以看到如下画面：</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/572ddf9f3ffc4793abcef67ff125f113.png" alt="572ddf9f3ffc4793abcef67ff125f113"></p>
+</center>
+
+<p>输入 i 进入编辑：</p>
+<p>通过键盘，移动光标到对应位置，将文件中的内容替换为上图中的内容。</p>
+<p>注意!</p>
+<p><mark>第一个坑来了！</mark></p>
+<p>上面文件中的地址字符串使用的地址可能是下图中的地址，更改后可能依旧会出现问题，无法打开桌面、图片等文件夹，会出现无法显示这一位置，符号连接的层数过多的错误。</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/b.png" alt="b"></p>
+</center>
+
+<p>所以需要将地址改为&#x2F;home&#x2F;user的格式。修改结束以后，按下ctrl+c，结束编辑。</p>
+<p>最后再输入 :wq 退出编辑。</p>
+<p><mark>第二个坑！</mark></p>
+<p>此时，千万不要直接重启电脑，不然配置文件会回到编辑之前的状态。这个时候我们需要删除我们修改路径的文件，比如桌面、图片、音乐、公共的文件夹，然后再分别新建。完成以后，在终端输入</p>
+<pre><code class="hljs bash">$ reboot</code></pre>
+
+<p>大功告成！</p>
+<h3 id="图形界面解决办法"><a href="#图形界面解决办法" class="headerlink" title="图形界面解决办法"></a>图形界面解决办法</h3><p><strong>Step 1</strong></p>
+<p>勾选上显示隐藏文件夹。</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/19f939873e4542f09bf0fb2a1901c195.png" alt="19f939873e4542f09bf0fb2a1901c195"></p>
+</center>
+
+<p><strong>Step 2</strong></p>
+<p>找到.config文件夹，打开，找到user-dirs.dirs文件，打开。</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/85769a1a17394219ba55c403cae64c9e.png" alt="85769a1a17394219ba55c403cae64c9e"></p>
+</center>
+
+<p>直接在文件中修改，将文件内容替换为上面给出的内容。</p>
+<p>保存。</p>
+<p><mark>最后一个坑！</mark></p>
+<p>成功以后最好在每个文件夹下新建一个文件，不然还是会出现出现无法显示这一位置，符号连接的层数过多的错误。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/ITBigGod/article/details/79659896">ubuntu桌面被删除或home文件跑到桌面问题</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40000457/article/details/111810406">Linux符号连接的层数过多</a></li>
+</ol>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Yulong Zhang
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="http://piggy-wanger.github.io/2024/07/19/0002/">http://piggy-wanger.github.io/2024/07/19/0002/</a>
+        </p>
+        
+    </div>
+ 
+    <!-- <div class="post-footer__meta"><p>updated at 2024-07-19</p></div>  -->
+    <div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/Ubuntu/" class="post-tags__link button"># Ubuntu</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2024/07/19/0003/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Web开发：前后端分离的简介与初步实现
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/07/19/0001/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            Ubuntu Tips：单击任务栏图标缩放窗口
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">红毛乌龟&#39;s Blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
