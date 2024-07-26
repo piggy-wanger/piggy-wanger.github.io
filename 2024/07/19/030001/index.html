@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+
+    
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!--icon-->
+
+    
+        <link rel="shortcut icon" href="/favicon/favicon.ico">
+    
+    
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    
+    
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    
+    
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    
+    
+        <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg">
+    
+
+
+    <!-- meta -->
+
+
+<title>Web开发：前后端分离的简介与初步实现 | 红毛乌龟&#39;s Blog</title>
+
+
+    <meta name="keywords" content="前后端分离, Web开发, Flask, React, Python, TypeScript">
+
+
+
+
+    <!-- OpenGraph -->
+ 
+    <meta name="description" content="本文主要简要介绍一下React+Flask的前后端分离开发实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web开发：前后端分离的简介与初步实现">
+<meta property="og:url" content="http://piggy-wanger.github.io/2024/07/19/030001/index.html">
+<meta property="og:site_name" content="红毛乌龟&#39;s Blog">
+<meta property="og:description" content="本文主要简要介绍一下React+Flask的前后端分离开发实现。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/4.png">
+<meta property="article:published_time" content="2024-07-19T12:36:57.000Z">
+<meta property="article:modified_time" content="2024-07-25T14:01:04.323Z">
+<meta property="article:author" content="Yulong Zhang">
+<meta property="article:tag" content="前后端分离">
+<meta property="article:tag" content="Web开发">
+<meta property="article:tag" content="Flask">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="TypeScript">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/piggy-wanger/picb/master/1.png">
+
+
+    
+<link rel="stylesheet" href="/css/style/main.css">
+ 
+
+    
+    
+    
+        <link rel="stylesheet" id="hl-default-theme" href="/css/highlight/hljs.css" media="none" >
+        
+            <link rel="stylesheet" id="hl-dark-theme" href="/css/highlight/hljs.dark.css" media="none">
+        
+    
+
+    
+
+    
+    
+<link rel="stylesheet" href="/css/style/dark.css">
+
+    
+<script src="/js/darkmode.js"></script>
+
+
+
+     
+
+    <!-- custom head -->
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+    <body>
+        <div id="app" tabindex="-1">
+            <header class="header">
+    <div class="header__left">
+        <a href="/" class="button">
+            <span class="logo__text">红毛乌龟&#39;s Blog</span>
+        </a>
+    </div>
+    <div class="header__right">
+        
+            <div class="navbar__menus">
+                
+                    <a href="/" class="navbar-menu button">Home</a>
+                
+                    <a href="/tags/" class="navbar-menu button">Tags</a>
+                
+                    <a href="/archives/" class="navbar-menu button">Archives</a>
+                
+                    <a href="/categories/" class="navbar-menu button">Columns</a>
+                
+                    <a href="/about/" class="navbar-menu button">About</a>
+                
+            </div>
+        
+        
+        
+    <a href="/search/" id="btn-search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg>
+    </a>
+
+
+        
+        
+    <a href="javaScript:void(0);" id="btn-toggle-dark">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    </a>
+
+
+        
+            <a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width='24' height='24' fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a>
+            <div class="dropdown-menus" id="dropdown-menus">
+                
+                    <a href="/" class="dropdown-menu button">Home</a>
+                
+                    <a href="/tags/" class="dropdown-menu button">Tags</a>
+                
+                    <a href="/archives/" class="dropdown-menu button">Archives</a>
+                
+                    <a href="/categories/" class="dropdown-menu button">Columns</a>
+                
+                    <a href="/about/" class="dropdown-menu button">About</a>
+                
+            </div>
+        
+    </div>
+</header>
+
+
+            <main class="main">
+    
+
+<div class="post-title">
+    <h1 class="post-title__text">
+        Web开发：前后端分离的简介与初步实现
+    </h1>
+    <div class="post-title__meta">
+        <a href="/archives/2024/07/" class="post-meta__date button">2024-07-19</a>
+        
+    <span class="separate-dot"></span><a href="/categories/Web%E5%BC%80%E5%8F%91/" class="button">Web开发</a>
+
+ 
+        
+    
+    
+
+
+ 
+
+ 
+    </div>
+</div>
+
+
+    <aside class="post-side">
+        <div class="post-side__toc">
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="toc-number">1.1.</span> <span class="toc-text">前后端分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%9AReact"><span class="toc-number">1.2.</span> <span class="toc-text">前端框架：React</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#React%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">React简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TypeScript%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.2.</span> <span class="toc-text">TypeScript简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%9AFlask"><span class="toc-number">1.3.</span> <span class="toc-text">后端框架：Flask</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%88%9D%E6%AD%A5%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">前后端分离初步实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">整体架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text">后端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF"><span class="toc-number">2.3.</span> <span class="toc-text">前端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%95%88%E6%9E%9C"><span class="toc-number">2.4.</span> <span class="toc-text">实现效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
+        </div>
+    </aside>
+    <a class="btn-toc button" id="btn-toc" tabindex="0">
+        <svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path>
+        </svg>
+    </a>
+    <div class="toc-menus" id="toc-menus">
+        <div class="toc-title">Article Directory</div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB"><span class="toc-number">1.1.</span> <span class="toc-text">前后端分离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%9AReact"><span class="toc-number">1.2.</span> <span class="toc-text">前端框架：React</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#React%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">React简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#TypeScript%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.2.</span> <span class="toc-text">TypeScript简介</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6%EF%BC%9AFlask"><span class="toc-number">1.3.</span> <span class="toc-text">后端框架：Flask</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB%E5%88%9D%E6%AD%A5%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">前后端分离初步实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">整体架构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%AB%AF"><span class="toc-number">2.2.</span> <span class="toc-text">后端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%AB%AF"><span class="toc-number">2.3.</span> <span class="toc-text">前端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%95%88%E6%9E%9C"><span class="toc-number">2.4.</span> <span class="toc-text">实现效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">3.</span> <span class="toc-text">参考文献</span></a></li></ol>
+    </div>
+
+
+<article class="post post__with-toc content-card">
+    <div class="post__header"></div>
+    <div class="post__content">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文主要简要介绍一下React+Flask的前后端分离开发实现。</p>
+<h3 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a>前后端分离</h3><p>前后端分离是一种软件架构模式，旨在将一个应用程序的前端（用户界面）和后端（业务逻辑和数据处理）部分分开开发、管理和部署。这种模式的主要目标是提高开发效率、灵活性和可维护性，同时允许不同类型的开发团队专注于各自的领域。</p>
+<p>在前后端分离架构中，前端和后端是独立的两个模块，它们通过网络通信进行交互。</p>
+<p><strong>前端 frontend</strong></p>
+<ul>
+<li>用户界面： 前端负责用户界面的展示，包括页面布局、交互元素、样式和用户体验。</li>
+<li>开发技术： 前端可以使用各种技术，如HTML、CSS、JavaScript、框架（例如React、Vue.js、Angular）等来构建交互式的用户界面。</li>
+<li>网络请求： 前端通过网络请求从后端获取数据，通常使用AJAX、Fetch API或类似的技术来进行异步通信。</li>
+</ul>
+<p><strong>后端 backend</strong></p>
+<ul>
+<li>业务逻辑： 后端负责应用程序的核心业务逻辑、数据处理、数据库交互和安全验证等。</li>
+<li>开发技术： 后端开发可以使用不同的编程语言和框架，如Node.js、Python、Java、Ruby、Flask、Django等。</li>
+<li>接口提供： 后端向前端提供API（Application Programming Interface），用于定义前后端之间的通信协议和数据交换格式（如JSON）。</li>
+</ul>
+<h3 id="前端框架：React"><a href="#前端框架：React" class="headerlink" title="前端框架：React"></a>前端框架：React</h3><h4 id="React简介"><a href="#React简介" class="headerlink" title="React简介"></a>React简介</h4><p>React 是一个用于构建用户界面的 JavaScript 库，由 Facebook 开发并维护。它专注于构建高效、交互式和可重用的用户界面组件，使开发者能够轻松地构建复杂的 Web 应用。</p>
+<ul>
+<li>组件化开发： React 鼓励开发者将用户界面分解为独立的可重用组件，每个组件都有自己的状态（state）和属性（props）。</li>
+<li>虚拟 DOM： React 使用虚拟 DOM 来提高性能。它会在内存中创建一个虚拟表示，然后通过比较虚拟 DOM 的变化来最小化实际 DOM 的更新，从而提高页面渲染效率。</li>
+<li>声明式编程： React 鼓励使用声明式方式描述 UI，开发者只需关注“什么”需要渲染，而不是“如何”渲染。</li>
+</ul>
+<p>具体的React框架学习与入门，强烈推荐<a target="_blank" rel="noopener" href="https://react.docschina.org/">官方文档</a>，提供中文版。</p>
+<h4 id="TypeScript简介"><a href="#TypeScript简介" class="headerlink" title="TypeScript简介"></a>TypeScript简介</h4><p>TypeScript 是一种由微软开发的开源编程语言，它是 JavaScript 的一个超集。TypeScript 扩展了 JavaScript，添加了静态类型系统和一些其他编程特性，旨在增强代码的可维护性、可读性和开发时的错误检测能力。当结合TypeScript与React时，可以得到一种更加类型安全的开发体验。</p>
+<h3 id="后端框架：Flask"><a href="#后端框架：Flask" class="headerlink" title="后端框架：Flask"></a>后端框架：Flask</h3><p>Flask 是一个基于 Python 的微型Web应用框架，旨在帮助开发者快速构建简单而灵活的Web应用程序。它被设计成非常轻量级，以便于扩展和自定义，同时提供了一些基本工具和结构，使得构建Web应用变得简单。</p>
+<ul>
+<li>微型框架： Flask 是一个微型框架，它提供了一些基础功能，但不强迫开发者使用特定的工具或模块。这使得开发者可以根据项目的需求来选择性地添加功能和扩展。</li>
+<li>路由： Flask 使用路由来映射 URL 到相应的视图函数。通过定义不同的路由规则，可以实现不同 URL 地址与不同处理逻辑的映射。</li>
+<li>视图函数： 视图函数是处理 HTTP 请求的函数，它可以根据请求方法（GET、POST 等）来执行不同的操作，并返回响应内容。</li>
+<li>模板引擎： Flask 集成了 Jinja2 模板引擎，允许开发者在视图函数中生成动态的 HTML 页面。模板引擎使得页面的渲染变得更加灵活和可维护。</li>
+<li>上下文管理： Flask 提供了应用上下文和请求上下文来管理应用程序状态和请求相关的信息。这有助于在应用中共享数据，如数据库连接。</li>
+<li>扩展： Flask 允许通过扩展（Extensions）来集成额外的功能，例如数据库集成、表单处理、身份验证等。这些扩展可以根据项目需求灵活地添加和定制。</li>
+<li>RESTful 支持： Flask 可以很容易地实现 RESTful API，使得构建 Web 服务和移动应用后端变得方便。</li>
+</ul>
+<p>总之，Flask 是一个非常适合小型至中型 Web 应用的框架，特点是灵活、简单、可扩展，适合那些希望快速构建原型或小规模应用的开发者。</p>
+<p>Flask的入门学习强烈推荐李辉老师的教程：<a target="_blank" rel="noopener" href="https://helloflask.com/book/3/">Flask 入门教程</a>。</p>
+<h2 id="前后端分离初步实现"><a href="#前后端分离初步实现" class="headerlink" title="前后端分离初步实现"></a>前后端分离初步实现</h2><h3 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h3><pre><code class="hljs plaintext">React-Flask-demo
+├── backend
+└── frontend</code></pre>
+
+<h3 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h3><p>创建Flask项目</p>
+<p>命令行创建：</p>
+<pre><code class="hljs bash">$ <span class="hljs-built_in">mkdir</span> backend
+$ <span class="hljs-built_in">cd</span> backend
+$ <span class="hljs-built_in">touch</span> app.py</code></pre>
+
+<p>或者直接PyCharm创建Flask项目。</p>
+<p>app.py</p>
+<pre><code class="hljs python"><span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask
+<span class="hljs-keyword">from</span> flask_cors <span class="hljs-keyword">import</span> CORS
+
+app = Flask(__name__)
+<span class="hljs-comment"># 允许跨域传输数据</span>
+CORS(app)
+
+nowTime = datetime.datetime.now()
+
+
+<span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/time&#x27;</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">get_time</span>():
+    <span class="hljs-keyword">return</span> &#123;
+        <span class="hljs-string">&#x27;Task&#x27;</span>: <span class="hljs-string">&#x27;Connect the frontend and the backend successfully!&#x27;</span>,
+        <span class="hljs-string">&#x27;Date&#x27;</span>: nowTime,
+        <span class="hljs-string">&#x27;Frontend&#x27;</span>: <span class="hljs-string">&#x27;React&#x27;</span>,
+        <span class="hljs-string">&#x27;Backend&#x27;</span>: <span class="hljs-string">&#x27;Flask&#x27;</span>
+    &#125;
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:
+    app.run(debug=<span class="hljs-literal">True</span>)</code></pre>
+
+<p>在Flask程序中，我们引入了Flask-CORS扩展，来允许跨域传输，不然的话可能会报错。其他解决跨域传输的办法可以参考这篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9">3 Ways to Fix the CORS Error — and How the Access-Control-Allow-Origin Header Works</a></p>
+<p>终端运行：</p>
+<pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> backend
+$ python app.py</code></pre>
+
+<p>或者PyCharm直接点击运行Flask。</p>
+<p>记录下Flask运行的端口号：</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/1.png" alt="1"></p>
+</center>
+
+<p>打开浏览器，输入：</p>
+<pre><code class="hljs bash">http://127.0.0.1:5000/time</code></pre>
+
+<p>我们可以看到：</p>
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/2.png" alt="2"></p>
+</center>
+
+<h3 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h3><p>命令行运行：</p>
+<pre><code class="hljs bash">$ npx create-react-app frontend --template typescript</code></pre>
+
+<p>或者可以WebStorm&#x2F;PyCharm创建React项目，勾选上typescript选项。</p>
+<p>向package.json文件中添加记录的端口号：</p>
+<pre><code class="hljs json"><span class="hljs-attr">&quot;proxy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;http://127.0.0.1:5000&quot;</span><span class="hljs-punctuation">,</span></code></pre>
+
+<center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/3.png" alt="3"></p>
+</center>
+
+<p>App.tsx</p>
+<pre><code class="hljs jsx"><span class="hljs-keyword">import</span> <span class="hljs-title class_">React</span>, &#123; useState, useEffect &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;
+<span class="hljs-keyword">import</span> logo <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./logo.svg&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./App.css&#x27;</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-keyword">const</span> [time, setTime] = <span class="hljs-title function_">useState</span>(&#123;
+        <span class="hljs-attr">task</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+        <span class="hljs-attr">date</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+        <span class="hljs-attr">frontend</span>: <span class="hljs-string">&#x27;&#x27;</span>,
+        <span class="hljs-attr">backend</span>: <span class="hljs-string">&#x27;&#x27;</span>
+    &#125;);
+    <span class="hljs-title function_">useEffect</span>(<span class="hljs-function">() =&gt;</span> &#123;
+        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/time&#x27;</span>).<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> res.<span class="hljs-title function_">json</span>().<span class="hljs-title function_">then</span>(<span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> &#123;
+            <span class="hljs-title function_">setTime</span>(&#123;
+                <span class="hljs-attr">task</span>: time.<span class="hljs-property">Task</span>,
+                <span class="hljs-attr">date</span>: time.<span class="hljs-property">Date</span>,
+                <span class="hljs-attr">frontend</span>: time.<span class="hljs-property">Frontend</span>,
+                <span class="hljs-attr">backend</span>: time.<span class="hljs-property">Backend</span>,
+            &#125;);
+        &#125;));
+    &#125;, []);
+    <span class="hljs-keyword">return</span> (
+        <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;App&quot;</span>&gt;</span></span>
+<span class="language-xml">            <span class="hljs-tag">&lt;<span class="hljs-name">header</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;App-header&quot;</span>&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&#123;logo&#125;</span> <span class="hljs-attr">className</span>=<span class="hljs-string">&quot;App-logo&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;logo&quot;</span> /&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>React and Flask<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123; time.task &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123; time.date &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123; time.frontend &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123; time.backend &#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">            <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span></span>
+<span class="language-xml">        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+    );
+&#125;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title class_">App</span>;</code></pre>
+
+<p>使用了两个React中的hook函数，useState以及useEffect。</p>
+<p>具体用法可以查阅官方文档。在上面的代码中，useState被用来将从后端获取到的数据传递给前端，useEffect被用来从后端获取数据。</p>
+<p>终端运行：</p>
+<pre><code class="hljs bash">$ <span class="hljs-built_in">cd</span> frontend
+$ npm start</code></pre>
+
+<h3 id="实现效果"><a href="#实现效果" class="headerlink" title="实现效果"></a>实现效果</h3><center>
+
+<p><img src="https://raw.githubusercontent.com/piggy-wanger/picb/master/4.png" alt="4"></p>
+</center>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.geeksforgeeks.org/how-to-connect-reactjs-with-flask-api/?ref=gcse">How to connect ReactJS with flask API ?</a></li>
+<li><a target="_blank" rel="noopener" href="https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9">3 Ways to Fix the CORS Error — and How the Access-Control-Allow-Origin Header Works</a><br>此外，下面这篇文章也非常值得参考：<br><a target="_blank" rel="noopener" href="https://www.propelauth.com/post/react-flask-starter-app">React&#x2F;Flask Starter App</a></li>
+</ol>
+
+    </div>
+    
+    <div class="post__license">
+        <p>
+            <strong>Author: </strong>Yulong Zhang
+        </p>
+        <p>
+            <strong>
+                Permalink: 
+            </strong>
+            <a href="http://piggy-wanger.github.io/2024/07/19/030001/">http://piggy-wanger.github.io/2024/07/19/030001/</a>
+        </p>
+        
+    </div>
+ 
+    <!-- <div class="post-footer__meta"><p>updated at 2024-07-25</p></div>  -->
+    <div class="post-entry__tags"><a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" class="post-tags__link button"># 前后端分离</a><a href="/tags/Web%E5%BC%80%E5%8F%91/" class="post-tags__link button"># Web开发</a><a href="/tags/Flask/" class="post-tags__link button"># Flask</a><a href="/tags/React/" class="post-tags__link button"># React</a><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/TypeScript/" class="post-tags__link button"># TypeScript</a></div> 
+</article>
+
+
+    <div class="nav">
+        <div class="nav__prev">
+            
+                <a href="/2024/07/19/030002/" class="nav__link">
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
+                    </div>
+                    <div>
+                        <div class="nav__label">
+                            Previous Post
+                        </div>
+                        <div class="nav__title">
+                            Web开发：React+Flask实现实时相机调用
+                        </div>
+                    </div>
+                </a>
+            
+        </div>
+        <div class="nav__next">
+            
+                <a href="/2024/07/19/010002/" class="nav__link">
+                    <div>
+                        <div class="nav__label">
+                            Next Post
+                        </div>
+                        <div class="nav__title">
+                            Ubuntu Tips：home目录下文件泄漏于桌面
+                        </div>
+                    </div>
+                    <div>
+                        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg>
+                    </div>
+                </a>
+            
+        </div>
+    </div>
+
+
+
+
+
+</main>
+
+            <footer class="footer">
+     
+    <a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32">
+            <path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path>
+        </svg>
+    </a>
+
+    
+
+
+    
+     
+ 
+
+ 
+    
+        
+        <p class="footer-copyright">
+            Copyright © 2024 <a href="/">红毛乌龟&#39;s Blog</a>
+        </p>
+    
+    
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>
+
+        </div>
+         
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+    
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+
+    </body>
+</html>
