@@ -35,29 +35,30 @@
     <!-- meta -->
 
 
-<title>LeetCode151 反转字符串中的单词 | 红毛乌龟&#39;s Blog</title>
+<title>LeetCode225 用队列实现栈 | 红毛乌龟&#39;s Blog</title>
 
 
-    <meta name="keywords" content="算法, C++, 字符串">
+    <meta name="keywords" content="算法, C++, 栈, 队列">
 
 
 
 
     <!-- OpenGraph -->
  
-    <meta name="description" content="LeetCode151 反转字符串中的单词的解题记录。">
+    <meta name="description" content="LeetCode225 用队列实现栈的解题记录。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="LeetCode151 反转字符串中的单词">
-<meta property="og:url" content="http://piggy-wanger.github.io/2024/08/01/020151/index.html">
+<meta property="og:title" content="LeetCode225 用队列实现栈">
+<meta property="og:url" content="http://piggy-wanger.github.io/2024/08/06/020225/index.html">
 <meta property="og:site_name" content="红毛乌龟&#39;s Blog">
-<meta property="og:description" content="LeetCode151 反转字符串中的单词的解题记录。">
+<meta property="og:description" content="LeetCode225 用队列实现栈的解题记录。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-08-01T15:17:39.000Z">
-<meta property="article:modified_time" content="2024-08-01T15:18:26.292Z">
+<meta property="article:published_time" content="2024-08-06T15:39:42.000Z">
+<meta property="article:modified_time" content="2024-08-06T15:52:20.200Z">
 <meta property="article:author" content="Yulong Zhang">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="C++">
-<meta property="article:tag" content="字符串">
+<meta property="article:tag" content="栈">
+<meta property="article:tag" content="队列">
 <meta name="twitter:card" content="summary_large_image">
 
 
@@ -154,10 +155,10 @@
 
 <div class="post-title">
     <h1 class="post-title__text">
-        LeetCode151 反转字符串中的单词
+        LeetCode225 用队列实现栈
     </h1>
     <div class="post-title__meta">
-        <a href="/archives/2024/08/" class="post-meta__date button">2024-08-01</a>
+        <a href="/archives/2024/08/" class="post-meta__date button">2024-08-06</a>
         
     <span class="separate-dot"></span><a href="/categories/%E7%AE%97%E6%B3%95%E5%88%B7%E9%A2%98/" class="button">算法刷题</a>
 
@@ -176,7 +177,7 @@
 
     <aside class="post-side">
         <div class="post-side__toc">
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">快慢指针法</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%B8%A4%E4%B8%AA%E9%98%9F%E5%88%97"><span class="toc-number">3.1.</span> <span class="toc-text">方法一：使用两个队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AA%E9%98%9F%E5%88%97"><span class="toc-number">3.2.</span> <span class="toc-text">方法二：使用一个队列</span></a></li></ol></li></ol>
         </div>
     </aside>
     <a class="btn-toc button" id="btn-toc" tabindex="0">
@@ -186,7 +187,7 @@
     </a>
     <div class="toc-menus" id="toc-menus">
         <div class="toc-title">Article Directory</div>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">快慢指针法</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%B8%A4%E4%B8%AA%E9%98%9F%E5%88%97"><span class="toc-number">3.1.</span> <span class="toc-text">方法一：使用两个队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AA%E9%98%9F%E5%88%97"><span class="toc-number">3.2.</span> <span class="toc-text">方法二：使用一个队列</span></a></li></ol></li></ol>
     </div>
 
 
@@ -194,54 +195,110 @@
     <div class="post__header"></div>
     <div class="post__content">
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
-<p><strong>题目：</strong> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-words-in-a-string/description/">151. 反转字符串中的单词</a><br><strong>文档：</strong> <a target="_blank" rel="noopener" href="https://programmercarl.com/0151.%E7%BF%BB%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%87%8C%E7%9A%84%E5%8D%95%E8%AF%8D.html">代码随想录——反转字符串中的单词</a><br><strong>编程语言：</strong> C++<br><strong>解题状态：</strong> 没思路…</p>
+<p><strong>题目：</strong> <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/implement-stack-using-queues/description/">225. 用队列实现栈</a><br><strong>文档：</strong> <a target="_blank" rel="noopener" href="https://www.programmercarl.com/0225.%E7%94%A8%E9%98%9F%E5%88%97%E5%AE%9E%E7%8E%B0%E6%A0%88.html">代码随想录——用队列实现栈</a><br><strong>编程语言：</strong> C++<br><strong>解题状态：</strong> 还是没有思路</p>
 </blockquote>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>解题的关键点在于先将整个字符串翻转过来。解题思路如下：</p>
-<ul>
-<li>移除多余空格</li>
-<li>将整个字符串反转</li>
-<li>将每个单词反转</li>
-</ul>
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="快慢指针法"><a href="#快慢指针法" class="headerlink" title="快慢指针法"></a>快慢指针法</h3><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Solution</span> &#123;
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>还是模拟题。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="方法一：使用两个队列"><a href="#方法一：使用两个队列" class="headerlink" title="方法一：使用两个队列"></a>方法一：使用两个队列</h3><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStack</span> &#123;
 <span class="hljs-keyword">public</span>:
-    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">reverse</span><span class="hljs-params">(string&amp; s, <span class="hljs-type">int</span> start, <span class="hljs-type">int</span> end)</span> </span>&#123;
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = start, j = end; i &lt; j; i++, j--) &#123;
-            <span class="hljs-built_in">swap</span>(s[i], s[j]);
-        &#125;
+    queue&lt;<span class="hljs-type">int</span>&gt; que1;
+    queue&lt;<span class="hljs-type">int</span>&gt; que2;
+
+    <span class="hljs-built_in">MyStack</span>() &#123;
+
     &#125;
-
-    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">removeExtraSpaces</span><span class="hljs-params">(string&amp; s)</span> </span>&#123;
-        <span class="hljs-type">int</span> slow = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; s.<span class="hljs-built_in">size</span>(); ++i) &#123;
-            <span class="hljs-keyword">if</span> (s[i] != <span class="hljs-string">&#x27; &#x27;</span>) &#123;
-                <span class="hljs-keyword">if</span> (slow != <span class="hljs-number">0</span>) s[slow++] = <span class="hljs-string">&#x27; &#x27;</span>;
-
-                <span class="hljs-keyword">while</span> (i &lt; s.<span class="hljs-built_in">size</span>() &amp;&amp; s[i] != <span class="hljs-string">&#x27; &#x27;</span>) &#123;
-                    s[slow++] = s[i++];
-                &#125;
-            &#125;
-        &#125;
-        s.<span class="hljs-built_in">resize</span>(slow);
+    
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;
+        que<span class="hljs-number">1.</span><span class="hljs-built_in">push</span>(x);
     &#125;
-
-    <span class="hljs-function">string <span class="hljs-title">reverseWords</span><span class="hljs-params">(string s)</span> </span>&#123;
-        <span class="hljs-built_in">removeExtraSpaces</span>(s);
-        <span class="hljs-built_in">reverse</span>(s, <span class="hljs-number">0</span>, s.<span class="hljs-built_in">size</span>() - <span class="hljs-number">1</span>);
-        <span class="hljs-type">int</span> start = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= s.<span class="hljs-built_in">size</span>(); ++i) &#123;
-            <span class="hljs-keyword">if</span> (i == s.<span class="hljs-built_in">size</span>() || s[i] == <span class="hljs-string">&#x27; &#x27;</span>) &#123;
-                <span class="hljs-built_in">reverse</span>(s, start, i - <span class="hljs-number">1</span>);
-                start = i + <span class="hljs-number">1</span>;
-            &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-type">int</span> size = que<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();
+        size--;
+        <span class="hljs-keyword">while</span> (size--) &#123;
+            que<span class="hljs-number">2.</span><span class="hljs-built_in">push</span>(que<span class="hljs-number">1.f</span>ront());
+            que<span class="hljs-number">1.</span><span class="hljs-built_in">pop</span>();
         &#125;
-        <span class="hljs-keyword">return</span> s;
+
+        <span class="hljs-type">int</span> result = que<span class="hljs-number">1.f</span>ront();
+        que<span class="hljs-number">1.</span><span class="hljs-built_in">pop</span>();
+        que1 = que2;
+        <span class="hljs-keyword">while</span> (!que<span class="hljs-number">2.</span><span class="hljs-built_in">empty</span>()) &#123;
+            que<span class="hljs-number">2.</span><span class="hljs-built_in">pop</span>();
+        &#125;
+
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-type">int</span> size = que<span class="hljs-number">1.</span><span class="hljs-built_in">size</span>();
+        size--;
+        <span class="hljs-keyword">while</span> (size--) &#123;
+            que<span class="hljs-number">2.</span><span class="hljs-built_in">push</span>(que<span class="hljs-number">1.f</span>ront());
+            que<span class="hljs-number">1.</span><span class="hljs-built_in">pop</span>();
+        &#125;
+
+        <span class="hljs-type">int</span> result = que<span class="hljs-number">1.f</span>ront();
+        que<span class="hljs-number">2.</span><span class="hljs-built_in">push</span>(que<span class="hljs-number">1.f</span>ront());
+        que<span class="hljs-number">1.</span><span class="hljs-built_in">pop</span>();
+
+        que1 = que2;
+        <span class="hljs-keyword">while</span> (!que<span class="hljs-number">2.</span><span class="hljs-built_in">empty</span>()) &#123;
+            que<span class="hljs-number">2.</span><span class="hljs-built_in">pop</span>();
+        &#125;
+
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> que<span class="hljs-number">1.</span><span class="hljs-built_in">empty</span>();
     &#125;
 &#125;;</code></pre>
 
-<ul>
-<li>时间复杂度： <mark>$O(n)$</mark></li>
-<li>空间复杂度： <mark>$O(1)$</mark></li>
-</ul>
+<h3 id="方法二：使用一个队列"><a href="#方法二：使用一个队列" class="headerlink" title="方法二：使用一个队列"></a>方法二：使用一个队列</h3><pre><code class="hljs cpp"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyStack</span> &#123;
+<span class="hljs-keyword">public</span>:
+    queue&lt;<span class="hljs-type">int</span>&gt; que;
+
+    <span class="hljs-built_in">MyStack</span>() &#123;
+
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">push</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span>&#123;
+        que.<span class="hljs-built_in">push</span>(x);
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">pop</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-type">int</span> size = que.<span class="hljs-built_in">size</span>();
+        size--;
+        <span class="hljs-keyword">while</span> (size--) &#123;
+            que.<span class="hljs-built_in">push</span>(que.<span class="hljs-built_in">front</span>());
+            que.<span class="hljs-built_in">pop</span>();
+        &#125;
+
+        <span class="hljs-type">int</span> result = que.<span class="hljs-built_in">front</span>();
+        que.<span class="hljs-built_in">pop</span>();
+
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">top</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-type">int</span> size = que.<span class="hljs-built_in">size</span>();
+        size--;
+        <span class="hljs-keyword">while</span> (size--) &#123;
+            que.<span class="hljs-built_in">push</span>(que.<span class="hljs-built_in">front</span>());
+            que.<span class="hljs-built_in">pop</span>();
+        &#125;
+
+        <span class="hljs-type">int</span> result = que.<span class="hljs-built_in">front</span>();
+        que.<span class="hljs-built_in">push</span>(que.<span class="hljs-built_in">front</span>());
+        que.<span class="hljs-built_in">pop</span>();
+
+        <span class="hljs-keyword">return</span> result;
+    &#125;
+    
+    <span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">empty</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> que.<span class="hljs-built_in">empty</span>();
+    &#125;
+&#125;;</code></pre>
 
     </div>
     
@@ -253,20 +310,20 @@
             <strong>
                 Permalink: 
             </strong>
-            <a href="http://piggy-wanger.github.io/2024/08/01/020151/">http://piggy-wanger.github.io/2024/08/01/020151/</a>
+            <a href="http://piggy-wanger.github.io/2024/08/06/020225/">http://piggy-wanger.github.io/2024/08/06/020225/</a>
         </p>
         
     </div>
  
-    <!-- <div class="post-footer__meta"><p>updated at 2024-08-01</p></div>  -->
-    <div class="post-entry__tags"><a href="/tags/%E7%AE%97%E6%B3%95/" class="post-tags__link button"># 算法</a><a href="/tags/C/" class="post-tags__link button"># C++</a><a href="/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-tags__link button"># 字符串</a></div> 
+    <!-- <div class="post-footer__meta"><p>updated at 2024-08-06</p></div>  -->
+    <div class="post-entry__tags"><a href="/tags/%E7%AE%97%E6%B3%95/" class="post-tags__link button"># 算法</a><a href="/tags/C/" class="post-tags__link button"># C++</a><a href="/tags/%E6%A0%88/" class="post-tags__link button"># 栈</a><a href="/tags/%E9%98%9F%E5%88%97/" class="post-tags__link button"># 队列</a></div> 
 </article>
 
 
     <div class="nav">
         <div class="nav__prev">
             
-                <a href="/2024/08/06/020028/" class="nav__link">
+                <a href="/2024/08/06/020020/" class="nav__link">
                     <div>
                         <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg>
                     </div>
@@ -275,7 +332,7 @@
                             Previous Post
                         </div>
                         <div class="nav__title">
-                            LeetCode28 找出字符串中第一个匹配项的下标
+                            LeetCode20 有效的括号
                         </div>
                     </div>
                 </a>
@@ -283,13 +340,13 @@
         </div>
         <div class="nav__next">
             
-                <a href="/2024/08/01/020541/" class="nav__link">
+                <a href="/2024/08/06/020232/" class="nav__link">
                     <div>
                         <div class="nav__label">
                             Next Post
                         </div>
                         <div class="nav__title">
-                            LeetCode541 反转字符串 II
+                            LeetCode232 用栈实现队列
                         </div>
                     </div>
                     <div>
